@@ -1,7 +1,9 @@
 # %%
-# Importing libraries
+# Importing libraries   
 import numpy as np
 import matplotlib.pyplot as plt
+import Module1
+import importlib
 
 
 # %%
@@ -16,31 +18,12 @@ lambda_array = ([-5, -1, 0, 0.01, 0.1]) # lambda = -5, -1,..,0.1
 lambda_steps = len(lambda_array) # Number of iterations needed to loop through lambda values (n lambda values)
 time_steps = len(t_array) # Number of iterations needed to loop through the values of t 
 
-# Function that evalutes the solution to the ODE (x(t) = e^(lambda*t) * x(0))
-# Parameters: array with values of t, array with lambda values, number of iterations - number of values t
-def ode_solve(time, lambda_val, steps):
-    x_t = np.zeros(steps)
-
-    for i in range(0, steps):
-        x_t[i] = np.exp(time[i]*lambda_val) * x_0
-    return x_t
-
-# Function that calls 'ode_solve' for each value of lambda and returns a matrix with the outputs of all lambda values
-# Parameters: number of iterations - number of values of lambda, array with lambda values
-def results(lambda_steps, lambda_vals):
-    ode_arrays = np.zeros((5,6)) # dimensions are hard coded, would be nice to make dynamic based off of input arrays
-
-    for i in range(0, lambda_steps):
-        ode_arrays[i] = ode_solve(t_array, lambda_vals[i], time_steps)
-
-    return ode_arrays
-
 
 # %%
+importlib.reload(Module1)
 # Calling results function to get outputs for the solution to the ode for varying lambda values
-ode_results = results(lambda_steps, lambda_array)
+ode_results = Module1.results(time_steps, t_array, lambda_steps, lambda_array, x_0)
 print(ode_results)
-
 # %%
 # Plotting x(t) outputs that were calculated above
 # Parameters: array with time values, elements from ode_results matrix
